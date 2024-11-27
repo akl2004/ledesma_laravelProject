@@ -12,8 +12,20 @@
 
                 <!-- Add Student Form -->
                 <div class="mb-6">
+                    @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-400 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong class="font-bold">{{ session('success') }}</strong>
+                        <span class="block sm:inline"></span>
+                    </div>
+                    @endif
+                    @if(session('danger'))
+                    <div class="bg-red-100 border border-red-400 text-red-400 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong class="font-bold">{{ session('danger') }}</strong>
+                        <span class="block sm:inline"></span>
+                    </div>
+                    @endif
                     <h3 class="text-lg font-medium mb-4">Add New Student</h3>
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('student.store') }}">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -29,7 +41,7 @@
                                 <input type="text" id="phone" name="phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                             </div>
                             <div>
-                                <label for="address" class="block text-gray-700">Email</label>
+                                <label for="address" class="block text-gray-700">Address</label>
                                 <input type="text" id="address" name="address" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                             </div>
                         </div>
@@ -56,21 +68,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($students as $key => $student)
                             <tr>
-                                <td class="py-2 border-b px-4 text-center">1</td>
-                                <td class="py-2 border-b px-4 text-center">John Doe</td>
-                                <td class="py-2 border-b px-4 text-center">johndoe@example.com</td>
-                                <td class="py-2 border-b px-4 text-center">123-456-7890</td>
-                                <td class="py-2 border-b px-4 text-center">123 Main St</td>
+                                <td class="py-2 border-b px-4 text-center">{{ $key + 1 }}</td>
+                                <td class="py-2 border-b px-4 text-center">{{ $student->name }}</td>
+                                <td class="py-2 border-b px-4 text-center">{{ $student->email }}</td>
+                                <td class="py-2 border-b px-4 text-center">{{ $student->phone }}</td>
+                                <td class="py-2 border-b px-4 text-center">{{ $student->address }}</td>
                                 <td class="py-2 border-b px-4 text-center">
                                     <a href="#" class="text-blue-500 hover:text-blue-700">Edit</a>
-                                    <a href="#" class="text-red-500 hover:text-red-700">Delete</a>
+                                    <form method="POST" action="{{ route('student.destroy', $student->id) }}" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                
+
             </div>
         </div>
     </div>
