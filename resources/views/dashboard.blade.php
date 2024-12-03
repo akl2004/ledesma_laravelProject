@@ -76,7 +76,7 @@
                                 <td class="py-2 border-b px-4 text-center">{{ $student->phone }}</td>
                                 <td class="py-2 border-b px-4 text-center">{{ $student->address }}</td>
                                 <td class="py-2 border-b px-4 text-center">
-                                    <a href="#" class="text-blue-500 hover:text-blue-700">Edit</a>
+                                    <a href="{{ route('student.edit', $student->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
                                     <form method="POST" action="{{ route('student.destroy', $student->id) }}" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
